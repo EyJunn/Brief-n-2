@@ -1,4 +1,4 @@
-const squares = document.getElementsByClassName("square");
+const board = document.getElementById("board");
 const players = ["player1", "player2"];
 let currentPlayer = players[0];
 
@@ -26,7 +26,27 @@ class Forme {
   }
 
   display() {
-    const board = document.getElementById("board");
+    const boardd = document.getElementById("board");
     let forme = document.createElement("div");
+    forme.style.width = `${this.width}px`;
+    forme.style.width = `${this.width}px`;
+    forme.style.height = `${this.height}px`;
+    forme.style.backgroundColor = this.color;
+    forme.style.position = "absolute";
+    forme.style.top = `${this.positionY - this.height / 2}px`;
+    forme.style.left = `${this.positionX - this.width / 2}px`;
+    boardd.appendChild(forme);
   }
 }
+
+let squares = document.querySelectorAll(".square");
+squares.forEach((square) => {
+  square.addEventListener(
+    "click",
+    (e) => {
+      let carre = new Forme(60, 60, e.clientX, e.clientY, "purple");
+      carre.display();
+    },
+    { once: true }
+  );
+});
