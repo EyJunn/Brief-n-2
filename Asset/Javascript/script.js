@@ -1,6 +1,7 @@
 const board = document.getElementById("board");
 const players = ["player1", "player2"];
 let currentPlayer = players[0];
+let forme;
 
 const endMessage = document.createElement("h2");
 endMessage.textContent = `Player1's turn!`;
@@ -26,19 +27,12 @@ class Forme {
   }
 
   display() {
-    const boardd = document.getElementById("board");
-    let forme = document.createElement("div");
-    forme.style.width = `${this.width}px`;
+    forme = document.createElement("div");
     forme.style.width = `${this.width}px`;
     forme.style.height = `${this.height}px`;
     forme.style.backgroundColor = this.color;
-    forme.style.position = "absolute";
-    forme.style.top = `${this.positionY - this.height / 2}px`;
-    forme.style.left = `${this.positionX - this.width / 2}px`;
-    boardd.appendChild(forme);
   }
 }
-
 let squares = document.querySelectorAll(".square");
 squares.forEach((square) => {
   square.addEventListener(
@@ -46,7 +40,21 @@ squares.forEach((square) => {
     (e) => {
       let carre = new Forme(60, 60, e.clientX, e.clientY, "purple");
       carre.display();
+      square.appendChild(forme);
     },
     { once: true }
   );
 });
+
+class Circle extends Forme {
+  constructor(width, height, positionX, positionY, color, radius) {
+    super(width, height, positionX, positionY, color);
+    this.radius = radius;
+  }
+
+  display() {
+    super.display();
+    let forme = document.createElement("div");
+    forme.style.borderRadius = `${this.radius}px`;
+  }
+}
