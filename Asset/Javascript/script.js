@@ -9,12 +9,20 @@ endMessage.style.marginTop = "30px";
 endMessage.style.textAlign = "center";
 board.after(endMessage);
 
-function restartButton() {
-  for (let i = 0; i < squares.length; i++) {
-    squares[i].textContent = "";
-  }
-  endMessage.textContent = `Player1's turn!`;
-  currentPlayer = players[0];
+const para = document.querySelector(".p1");
+const para2 = document.querySelector(".p2");
+
+para.addEventListener("click", updateName);
+para2.addEventListener("click", updateName2);
+
+function updateName() {
+  const name = prompt("Enter a new name");
+  para.textContent = `Player 1: ${name}`;
+}
+
+function updateName2() {
+  const name = prompt("Enter a new name");
+  para2.textContent = `Player 2: ${name}`;
 }
 
 class Forme {
@@ -46,10 +54,20 @@ squares.forEach((square) => {
   );
 });
 
+const input = document.getElementById("restartButton");
+input.addEventListener("click", restartButton);
+
+function restartButton() {
+  for (let i = 0; i < squares.length; i++) {
+    squares[i].textContent = "";
+  }
+  endMessage.textContent = `Player1's turn!`;
+  currentPlayer = players[0];
+}
+
 class Circle extends Forme {
   constructor(width, height, positionX, positionY, color, radius) {
-    super(width, height, positionX, positionY, color);
-    this.radius = radius;
+    super(width, height, positionX, positionY, color, radius);
   }
 
   display() {
@@ -57,4 +75,13 @@ class Circle extends Forme {
     let forme = document.createElement("div");
     forme.style.borderRadius = `${this.radius}px`;
   }
+}
+
+class Players {
+  constructor(name, color) {
+    this.name = name;
+    this.color = color;
+  }
+
+  currentPlayer() {}
 }
