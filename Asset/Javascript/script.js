@@ -1,7 +1,18 @@
 const board = document.getElementById("board");
-const players = ["player1", "player2"];
-let currentPlayer = players[0];
+
 let forme;
+let isPlayer1 = true;
+
+const win_combinations = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
 
 const endMessage = document.createElement("h2");
 endMessage.textContent = `Player1's turn!`;
@@ -41,17 +52,53 @@ class Forme {
     forme.style.backgroundColor = this.color;
   }
 }
+
+class Circle extends Forme {
+  constructor(width, height, positionX, positionY, color, radius) {
+    super(width, height, positionX, positionY, color, radius);
+    this.radius = radius;
+  }
+
+  display() {
+    super.display();
+    forme.style.borderRadius = this.radius;
+  }
+}
+
 let squares = document.querySelectorAll(".square");
 squares.forEach((square) => {
-  square.addEventListener(
-    "click",
-    (e) => {
-      let carre = new Forme(60, 60, e.clientX, e.clientY, "purple");
-      carre.display();
+  square.addEventListener("click", (e) => {
+    if (isPlayer1 === true) {
+      let cube = new Forme(60, 60, e.clientX, e.clientY, "purple");
+      cube.display();
+      square.value = "clicked";
+
       square.appendChild(forme);
-    },
-    { once: true }
-  );
+      isPlayer1 = false;
+      endMessage.innerText = `Player 2's turn!`;
+      checkWinCombination();
+    } else {
+      let circle = new Circle(50, 50, e.clientX, e.clientY, "blue", "50px");
+      circle.display();
+      square.value = "clicked";
+
+      square.appendChild(forme);
+      isPlayer1 = true;
+      endMessage.innerText = `Player 1's turn!`;
+      checkWinCombination();
+    }
+
+    function checkWinCombination() {
+      if (
+        win_combinations == [0] || [1] || [2] || [3] || [4] || [5] || [6] || [
+          7,
+        ] || [8]
+      ) {
+        alert(`
+        The winner is ${name}`);
+      }
+    }
+  });
 });
 
 const input = document.getElementById("restartButton");
@@ -62,26 +109,5 @@ function restartButton() {
     squares[i].textContent = "";
   }
   endMessage.textContent = `Player1's turn!`;
-  currentPlayer = players[0];
-}
-
-class Circle extends Forme {
-  constructor(width, height, positionX, positionY, color, radius) {
-    super(width, height, positionX, positionY, color, radius);
-  }
-
-  display() {
-    super.display();
-    let forme = document.createElement("div");
-    forme.style.borderRadius = `${this.radius}px`;
-  }
-}
-
-class Players {
-  constructor(name, color) {
-    this.name = name;
-    this.color = color;
-  }
-
-  currentPlayer() {}
+  isPlayer1 = true;
 }
