@@ -1,8 +1,7 @@
 const board = document.getElementById("board");
-
 let forme;
 let isPlayer1 = true;
-
+let isfinish = true;
 const win_combinations = [
   [0, 1, 2],
   [3, 4, 5],
@@ -13,6 +12,8 @@ const win_combinations = [
   [0, 4, 8],
   [2, 4, 6],
 ];
+
+const gameBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 const endMessage = document.createElement("h2");
 endMessage.textContent = `Player1's turn!`;
@@ -50,6 +51,7 @@ class Forme {
     forme.style.width = `${this.width}px`;
     forme.style.height = `${this.height}px`;
     forme.style.backgroundColor = this.color;
+    forme.style.borderTopLeftRadius = "25px solid transparent";
   }
 }
 
@@ -68,35 +70,51 @@ class Circle extends Forme {
 let squares = document.querySelectorAll(".square");
 squares.forEach((square) => {
   square.addEventListener("click", (e) => {
-    if (isPlayer1 === true) {
-      let cube = new Forme(60, 60, e.clientX, e.clientY, "purple");
-      cube.display();
-      square.value = "clicked";
+    let number = parseInt(square.id.substring(6), 10);
+    if (gameBoard[number] == 0) {
+      if (isPlayer1 === true) {
+        let cube = new Forme(50, 50, e.clientX, e.clientY, "purple");
+        cube.display();
+        square.appendChild(forme);
 
-      square.appendChild(forme);
-      isPlayer1 = false;
-      endMessage.innerText = `Player 2's turn!`;
-      checkWinCombination();
+        gameBoard[number] = 1;
+        if (checkWinCombination() == false) {
+          isPlayer1 = false;
+          endMessage.innerText = `Player 2's turn!`;
+        }
+      } else {
+        let circle = new Circle(50, 50, e.clientX, e.clientY, "blue", "50px");
+        circle.display();
+        square.appendChild(forme);
+
+        gameBoard[number] = 2;
+        if (checkWinCombination() == false) {
+          isPlayer1 = true;
+          endMessage.innerText = `Player 1's turn!`;
+        }
+      }
     } else {
-      let circle = new Circle(50, 50, e.clientX, e.clientY, "blue", "50px");
-      circle.display();
-      square.value = "clicked";
-
-      square.appendChild(forme);
-      isPlayer1 = true;
-      endMessage.innerText = `Player 1's turn!`;
-      checkWinCombination();
+      alert("Cette case est déjà cochée");
     }
 
     function checkWinCombination() {
-      if (
-        win_combinations == [0] || [1] || [2] || [3] || [4] || [5] || [6] || [
-          7,
-        ] || [8]
-      ) {
-        alert(`
-        The winner is ${name}`);
+      console.log(gameBoard);
+      for (let combi of win_combinations) {
+        console.log(gameBoard[combi[0]], gameBoard[combi[1]]); // combi = [0,1,0]
+        if (
+          gameBoard[combi[0]] == gameBoard[combi[1]] &&
+          gameBoard[combi[0]] == gameBoard[combi[2]] &&
+          gameBoard[combi[0]] != 0
+        ) {
+          if (gameBoard[combi[0]] == 1) {
+            endMessage.innerText = "Players 1 Won!";
+          } else if (gameBoard[combi[0]] == 2) {
+            endMessage.innerText = "Players 2 Won !";
+          }
+          return true;
+        }
       }
+      return false;
     }
   });
 });
@@ -109,5 +127,8 @@ function restartButton() {
     squares[i].textContent = "";
   }
   endMessage.textContent = `Player1's turn!`;
+  for (let number = 0; number < gameBoard.length; number++) {
+    gameBoard[number] = 0;
+  }
   isPlayer1 = true;
 }
