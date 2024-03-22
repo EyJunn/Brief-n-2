@@ -2,6 +2,7 @@ const board = document.getElementById("board");
 let forme;
 let isPlayer1 = true;
 let isFinish = false;
+let ItsTie = 0;
 const win_combinations = [
   [0, 1, 2],
   [3, 4, 5],
@@ -14,8 +15,6 @@ const win_combinations = [
 ];
 
 const gameBoard = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-const para = document.querySelector(".p1").value;
-const para2 = document.querySelector(".p2").value;
 
 const endMessage = document.createElement("h2");
 endMessage.textContent = `Lemon's turn!`;
@@ -23,19 +22,12 @@ endMessage.style.marginTop = "30px";
 endMessage.style.textAlign = "center";
 board.after(endMessage);
 
-// para.addEventListener("click", updateName);
-// para2.addEventListener("click", updateName2);
-
-// function updateName() {
-//   const name = prompt("Enter a new name");
-//   para.textContent = `Player 1: ${name}`;
-// }
-
-// function updateName2() {
-//   const name = prompt("Enter a new name");
-//   para2.textContent = `Player 2: ${name}`;
-// }
-
+function startGame() {
+  alert(
+    "Rules of the Tic Tac Toe: Players take turns putting their marks in empty squares. The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner. When all 9 squares are full, the game is over. If no player has 3 marks in a row, the game ends in a tie."
+  );
+}
+startGame();
 class Forme {
   constructor(width, height, positionX, positionY, color, radius) {
     this.width = width;
@@ -70,11 +62,11 @@ class Circle extends Forme {
 let squares = document.querySelectorAll(".square");
 squares.forEach((square) => {
   square.addEventListener("click", (e) => {
-    toRename(e, square);
+    gamePlaying(e, square);
   });
 });
 
-function toRename(e, square) {
+function gamePlaying(e, square) {
   if (!isFinish) {
     let number = parseInt(square.id.substring(6), 10);
     if (gameBoard[number] == 0) {
@@ -82,8 +74,9 @@ function toRename(e, square) {
         let cube = new Forme(50, 50, e.clientX, e.clientY, "yellow", "5px");
         cube.display();
         square.appendChild(forme);
-
+        ItsTie++;
         gameBoard[number] = 1;
+
         if (checkWinCombination() == false) {
           isPlayer1 = false;
           endMessage.innerText = `Orange's turn!`;
@@ -92,7 +85,7 @@ function toRename(e, square) {
         let circle = new Circle(50, 50, e.clientX, e.clientY, "orange", "50px");
         circle.display();
         square.appendChild(forme);
-
+        ItsTie++;
         gameBoard[number] = 2;
         if (checkWinCombination() == false) {
           isPlayer1 = true;
@@ -113,6 +106,7 @@ function toRename(e, square) {
         ) {
           if (gameBoard[combi[0]] == 1) {
             endMessage.innerText = `Lemon Won!`;
+
             endGame();
           } else if (gameBoard[combi[0]] == 2) {
             endMessage.innerText = `Orange Won!`;
@@ -139,6 +133,7 @@ function restartButton() {
   }
   isPlayer1 = true;
   isFinish = false;
+  ItsTie = 0;
 }
 
 function endGame() {
