@@ -137,7 +137,6 @@ function restartButton() {
   }
   isPlayer1 = true;
   isFinish = false;
-  ItsTie = 0;
 }
 
 function endGame() {
