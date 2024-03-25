@@ -2,7 +2,6 @@ const board = document.getElementById("board");
 let forme;
 let isPlayer1 = true;
 let isFinish = false;
-let ItsTie = 0;
 const win_combinations = [
   [0, 1, 2],
   [3, 4, 5],
@@ -23,9 +22,14 @@ endMessage.style.textAlign = "center";
 board.after(endMessage);
 
 function startGame() {
-  alert(
-    "Rules of the Tic Tac Toe: Players take turns putting their marks in empty squares. The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner. When all 9 squares are full, the game is over. If no player has 3 marks in a row, the game ends in a tie."
-  );
+  let startScreen = document.querySelector(".startScreen");
+  startScreen.addEventListener("click", () => {
+    startScreen.style.transition = "1s";
+    startScreen.style.opacity = 0;
+    setTimeout(() => {
+      startScreen.classList.add("hidden");
+    }, 1000);
+  });
 }
 startGame();
 class Forme {
@@ -74,7 +78,7 @@ function gamePlaying(e, square) {
         let cube = new Forme(50, 50, e.clientX, e.clientY, "yellow", "5px");
         cube.display();
         square.appendChild(forme);
-        ItsTie++;
+
         gameBoard[number] = 1;
 
         if (checkWinCombination() == false) {
@@ -85,7 +89,7 @@ function gamePlaying(e, square) {
         let circle = new Circle(50, 50, e.clientX, e.clientY, "orange", "50px");
         circle.display();
         square.appendChild(forme);
-        ItsTie++;
+
         gameBoard[number] = 2;
         if (checkWinCombination() == false) {
           isPlayer1 = true;
