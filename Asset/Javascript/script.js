@@ -2,6 +2,9 @@ const board = document.getElementById("board");
 let forme;
 let isPlayer1 = true;
 let isFinish = false;
+const input = document.getElementById("restartButton");
+let squares = document.querySelectorAll(".square");
+
 const win_combinations = [
   [0, 1, 2],
   [3, 4, 5],
@@ -63,7 +66,6 @@ class Circle extends Forme {
   }
 }
 
-let squares = document.querySelectorAll(".square");
 squares.forEach((square) => {
   square.addEventListener("click", (e) => {
     gamePlaying(e, square);
@@ -78,7 +80,6 @@ function gamePlaying(e, square) {
         let cube = new Forme(50, 50, e.clientX, e.clientY, "yellow", "5px");
         cube.display();
         square.appendChild(forme);
-
         gameBoard[number] = 1;
 
         if (checkWinCombination() == false) {
@@ -89,7 +90,6 @@ function gamePlaying(e, square) {
         let circle = new Circle(50, 50, e.clientX, e.clientY, "orange", "50px");
         circle.display();
         square.appendChild(forme);
-
         gameBoard[number] = 2;
         if (checkWinCombination() == false) {
           isPlayer1 = true;
@@ -110,12 +110,15 @@ function gamePlaying(e, square) {
         ) {
           if (gameBoard[combi[0]] == 1) {
             endMessage.innerText = `Lemon Won!`;
-
             endGame();
           } else if (gameBoard[combi[0]] == 2) {
             endMessage.innerText = `Orange Won!`;
             endGame();
           }
+          return true;
+        } else if (!gameBoard.includes(0)) {
+          endMessage.innerText = `Draw !`;
+          endGame();
           return true;
         }
       }
@@ -124,7 +127,6 @@ function gamePlaying(e, square) {
   }
 }
 
-const input = document.getElementById("restartButton");
 input.addEventListener("click", restartButton);
 
 function restartButton() {
@@ -142,7 +144,8 @@ function restartButton() {
 function endGame() {
   if (
     endMessage.innerText == "Lemon Won!" ||
-    endMessage.innerText == "Orange Won!"
+    endMessage.innerText == "Orange Won!" ||
+    endMessage.innerText == `Draw !`
   ) {
     isFinish = true;
   }
