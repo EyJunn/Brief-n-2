@@ -1,9 +1,11 @@
+/* On retire le margin et le padding par défaut + on bloque le comportement de la witdh et de la height */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* installation de l'image en background du jeu + pose d'un filtre pour griser un peu les couleurs des images */
 body {
   background-image: url(../images/Lemon_and_OrangeBowl.png);
   background-repeat: no-repeat;
@@ -12,6 +14,7 @@ body {
   filter: grayscale(20%);
 }
 
+/* Installtion de l'écran de d'acceuil avec une image en background. */
 .startScreen {
   width: 100%;
   height: 100vh;
@@ -23,10 +26,12 @@ body {
   z-index: 1;
 }
 
+/* classe hiden pour cacher l'image d'accueil quand le js lui donne la classe */
 .hidden {
   display: none;
 }
 
+/* Mise en place de la div title et de sa size*/
 .title {
   font-size: 64px;
   position: absolute;
@@ -34,18 +39,21 @@ body {
   left: 35%;
 }
 
-.h2 {
+/* mise en place du h2 start game vers le centre de la page et du cursor en pointer */
+.startGame {
   position: absolute;
   top: 60%;
   left: 45%;
   cursor: pointer;
 }
 
+/* Placement du h1 et pose de sa couleur */
 h1 {
   text-align: center;
   color: orangered;
 }
 
+/* la div principale du plateau de jeu, est en disposition grid avec une largeur et une hauteur de 375px */
 #board {
   margin-left: auto;
   margin-right: auto;
@@ -56,6 +64,7 @@ h1 {
   grid-gap: 5px;
 }
 
+/* Pose des div enfants avec une bordure, une couleur et le cursor en pointer  */
 .square {
   width: 120px;
   height: 120px;
@@ -68,10 +77,12 @@ h1 {
   cursor: pointer;
 }
 
+/* un hover des divs enfants */
 .square:hover {
   background-color: #ffffe0;
 }
 
+/* notre input type button */
 #restartButton {
   display: block;
   margin-left: auto;
@@ -84,12 +95,14 @@ h1 {
   font-size: 18px;
 }
 
+/* changement de couleur du button quand on passe dessus avec une transition */
 #restartButton:hover {
   background-color: #000000;
   color: #ffffff;
   transition: 1s;
 }
 
+/* positionnement du premier paragraphe */
 .p1 {
   position: absolute;
   top: 50px;
@@ -98,6 +111,7 @@ h1 {
   font-size: 18px;
 }
 
+/* positionnement du deuxième paragraphe */
 .p2 {
   position: absolute;
   top: 70px;
@@ -106,6 +120,7 @@ h1 {
   font-size: 18px;
 }
 
+/* poistionnement des règles du jeu */
 .Rules {
   color: rgb(255, 214, 99);
   position: absolute;

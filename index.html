@@ -7,14 +7,18 @@
     <title>Fruits Tic Tac Toe</title>
   </head>
   <body>
+    <!-- Ajout d'une première div pour l'écran d'accueil -->
     <div class="startScreen">
       <h2 class="title">Fruits Tic Tac Toe</h2>
-      <h2 class="h2">Click to start the game!</h2>
+      <h2 class="startGame">Click to start the game!</h2>
     </div>
 
+    <!-- Ajout d'une deuxième div pour le H1 Qui sera sur l'écran de jeu -->
     <div id="title">
       <h1>Fruits Tic Tac Toe</h1>
     </div>
+
+    <!-- Ajout de la div principale pour le plateau de jeu et de ses div enfants  -->
     <div id="board">
       <div class="square" id="square0"></div>
       <div class="square" id="square1"></div>
@@ -26,10 +30,13 @@
       <div class="square" id="square7"></div>
       <div class="square" id="square8"></div>
     </div>
+
+    <!--Ajout d'un input type bouton dans une div pour pouvoir relancer la partie  -->
     <div id="endGame">
       <input type="button" value="Restart" id="restartButton" />
     </div>
 
+    <!-- Ajout de trois paragraphes pour les joueurs et les règles du jeu. -->
     <p class="p1">Player 1: Lemon</p>
     <p class="p2">Player 2: Orange</p>
     <p class="Rules">
